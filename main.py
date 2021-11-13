@@ -6,8 +6,8 @@ from keep_alive import keep_alive
 from scrap import currency
 from scrap2 import daily
 from discord import Color
-from discord import Spotify
 from datetime import datetime
+import time
 
 music = discord.Activity(type=discord.ActivityType.listening, name ="Her Halini Severim", start=datetime(2021, 5, 30, 12, 12, 12, 342380))
 #music = Spotify(title='Her Halini Severim', artist='Feyyaz Yiğit')
@@ -35,7 +35,7 @@ file1.close()
 async def rates():
     channel = client.get_channel(901924767513329695)
     channel2 = client.get_channel(902109009329389598)
-    ch_labne = client.get_channel(838136630425944066)
+    #ch_labne = client.get_channel(838136630425944066)
 
     dollar = float(str(currency()).replace(",","."))
     up = '<:greenUp:902101687043514378> '
@@ -125,15 +125,131 @@ async def leave(ctx):
 
 client.add_command(leave)
 
+
+lab_lib_ch = [909170792347107358, 901055167825346600, 845613490000494602, 845613443851485184, 845613337236602942, 525024033381810179]
+ir_id = 522835029596831774
+guz_id = 522825818225901578
+hra_id = 462700306724290563
+
 @commands.command()
-async def curr(ctx):
-    dollar = currency()
-    send_this = "💲: {} ₺".format(dollar)
-    em = discord.Embed(color = green, title = send_this)
-    await ctx.send(embed=em)
+async def start(ctx):
+  if ctx.message.channel.id in lab_lib_ch:
+    if ctx.message.author.id == ir_id:
+      lab_file = "irem.txt"
+    elif ctx.message.author.id == guz_id:
+      lab_file = "guzi.txt"
+    elif ctx.message.author.id == hra_id:
+      lab_file = "hra.txt"
+    else:
+      return
+    
+    log_file = open(lab_file, "w")
+    log_file.write("Başlangıç " + datetime.now().strftime("%m-%d-%Y %H:%M:%S") +"\n")
+    log_file.close()
+    await ctx.send("İyi çalışmalar!")
+  else:
+    return
 
-client.add_command(curr)
+client.add_command(start)
 
+@commands.command()
+async def pause(ctx):
+  if ctx.message.channel.id in lab_lib_ch:
+    if ctx.message.author.id == ir_id:
+      lab_file = "irem.txt"
+    elif ctx.message.author.id == guz_id:
+      lab_file = "guzi.txt"
+    elif ctx.message.author.id == hra_id:
+      lab_file = "hra.txt"
+    else:
+      return
+    with open(lab_file) as f:
+      for line in f:
+        if (line.startswith("Başlangıç")):
+          last_line = line
+        else:
+          continue
+    #print(last_line[-9:])
+    f.close()
+    now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+    log_file = open(lab_file, "a")
+    log_file.write("Mola başlangıç " + now +"\n")
+    log_file.close()
+    FMT = '%H:%M:%S'
+    #print(datetime.strptime(last_line[-9:-1], FMT).strftime("%H:%M:%S"))
+    await ctx.send("Süre duraklatıldı!")
+    await ctx.send("Çalıştığınız Süre: "+str(datetime.strptime(now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT)))
+  else:
+    return
+
+client.add_command(pause)
+
+@commands.command()
+async def cont(ctx):
+  if ctx.message.channel.id in lab_lib_ch:
+    if ctx.message.author.id == ir_id:
+      lab_file = "irem.txt"
+    elif ctx.message.author.id == guz_id:
+      lab_file = "guzi.txt"
+    elif ctx.message.author.id == hra_id:
+      lab_file = "hra.txt"
+    else:
+      return
+    with open(lab_file) as f:
+      for line in f:
+        if (line.startswith("Mola")):
+          last_line = line
+        else:
+          continue
+    #print(last_line[-9:])
+    f.close()    
+    FMT = '%H:%M:%S'
+    now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")    
+    log_file = open(lab_file, "a")
+    log_file.write("Başlangıç " + now +"\n")
+    log_file.close()
+    await ctx.send("İyi çalışmalar!")
+    diff = str(datetime.strptime(now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
+    await ctx.send("Mola Süresi: "+ diff)
+  else:
+    return
+
+client.add_command(cont)
+
+@commands.command()
+async def stop(ctx):
+  if ctx.message.channel.id in lab_lib_ch:
+    if ctx.message.author.id == ir_id:
+      lab_file = "irem.txt"
+    elif ctx.message.author.id == guz_id:
+      lab_file = "guzi.txt"
+    elif ctx.message.author.id == hra_id:
+      lab_file = "hra.txt"
+    else:
+      return
+    with open(lab_file) as f:
+      for line in f:
+        pass
+      last_line = line
+    #print(last_line[-9:])
+    f.close()   
+
+    f = open(lab_file, "r")
+    start = f.readline()
+    f.close()      
+    FMT = '%H:%M:%S'
+    now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")    
+    log_file = open(lab_file, "a")
+    log_file.write("Bitiş " + now +"\n")
+    log_file.close()
+    await ctx.send("İyi çalışmalar!")
+    diff = str(datetime.strptime(now[-8:], FMT) - datetime.strptime(start[-9:-1], FMT))
+    await ctx.send("Toplam Çalışma süresi: "+ diff)
+    await ctx.send("Başlangıç: " + last_line[-9:-1] +", Bitiş: "+ now[-8:])
+  else:
+    return
+
+client.add_command(stop)
 
 my_secret = os.environ['TOKEN']
 keep_alive()
