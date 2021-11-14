@@ -5,7 +5,7 @@ from discord.ext import tasks
 from keep_alive import keep_alive
 from scrap import currency
 from scrap2 import daily
-from discord import Color
+from discord import Color, GroupCall
 from datetime import datetime, timedelta
 from check_user import check_valid, check_user
 from discord.utils import get
@@ -104,12 +104,25 @@ async def ch_name():
 
 @tasks.loop(seconds=5)
 async def check_if_con():
-    channel = client.get_channel(764085102648098821)
-    hra = get(channel.members, id=462700306724290563)
-    if hra.channel == channel:
-        print("yes")
+    channel1 = client.get_channel(764085102648098821)
+    labne = client.get_guild(764085102648098817)
+    text_ch = client.get_channel(909170792347107358)
+    hra = await labne.fetch_member(462700306724290563)
+    #irm = labne.get_member(522835029596831774)
+    #guz = labne.get_member(522825818225901578)
+    #members = [hra, irm, guz]
+    print(hra.name)
+    if hra.voice is None:
+      await text_ch.send("no")
     else:
-        print("no")
+      if hra.voice.channel == channel1:
+        await text_ch.send("yea")
+        check_if_con.stop()
+    #print(labne.name)
+    #if hra in channel.members:
+    #    print("yes")
+    #else:
+    #    print("no")
 
 
 @commands.command()
