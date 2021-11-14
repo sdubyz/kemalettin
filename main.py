@@ -157,7 +157,7 @@ async def start(ctx):
 client.add_command(start)
 
 
-@commands.command()
+@commands.command(name="break")
 async def pause(ctx):
     lab_file = check_valid(ctx)
     if (lab_file == "wrong"):
