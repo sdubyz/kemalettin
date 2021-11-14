@@ -182,7 +182,7 @@ async def pause(ctx):
             tot_file = open(tot_fi_name, "a")
             tot_file.write(tot_time + "\n")
             tot_file.close()
-            await ctx.send("Süre duraklatıldı!")
+            await ctx.send("Süre duraklatıldı!", delete_after=3.0)
             await ctx.send("Çalıştığınız Süre: " + tot_time)
 
 client.add_command(pause)
@@ -208,7 +208,7 @@ async def cont(ctx):
             log_file = open(lab_file, "a")
             log_file.write("Başlangıç " + now + "\n")
             log_file.close()
-            await ctx.send("İyi çalışmalar!")
+            await ctx.send("İyi çalışmalar!", delete_after=3.0)
             diff = str(datetime.strptime(
                 now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
             await ctx.send("Mola Süresi: " + diff)
