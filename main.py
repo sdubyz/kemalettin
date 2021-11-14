@@ -236,11 +236,10 @@ async def stop(ctx):
         log_file.close()
         tot_file = check_user(lab_file)
         tot_time = datetime.strptime("00:00:00", FMT)
-				time_zero = datetime.strptime('00:00:00', FMT)
-
+        time_zero = datetime.strptime('00:00:00', FMT)
         with open(tot_file) as f:
             for line in f:
-							t2 = datetime.strptime(line[:-1], FMT)
+              t2 = datetime.strptime(line[:-1], FMT)
               tot_time = tot_time - time_zero + t2
 
         diff = str(datetime.strptime(
