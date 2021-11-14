@@ -103,6 +103,16 @@ async def ch_name():
     await channel.edit(name="dolar-{}".format(dollar))
 
 
+@tasks.loop(second=5)
+async def check_if_con():
+    channel = client.get_channel(764085102648098821)
+    hra = discord.User.id(462700306724290563)
+    if hra.channel == channel:
+        print("yes")
+    else:
+        print("no")
+
+
 @commands.command()
 async def curr(ctx):
     dollar = currency()
