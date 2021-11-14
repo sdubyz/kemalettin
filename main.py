@@ -235,13 +235,19 @@ async def stop(ctx):
         log_file = open(lab_file, "a")
         log_file.write("Bitiş " + now + "\n")
         log_file.close()
+        tot_file = check_user(lab_file)
+        tot_time = datetime.strptime("00:00:00", FMT)
+        with open(tot_file):
+            for line in f:
+                tot_time += datetime.strptime(line, FMT)
+
         diff = str(datetime.strptime(
             now[-8:], FMT) - datetime.strptime(start[-9:-1], FMT))
         str_time = datetime.strptime(
-            start[-9:-1], FMT) + timedelta(hours=9)
+            start[-9:-1], FMT) + timedelta(hours=3)
         now_t = datetime.strptime(
-            now[-8:], FMT) + timedelta(hours=9)
-        await ctx.send("Toplam Çalışma süresi: " + diff)
+            now[-8:], FMT) + timedelta(hours=3)
+        await ctx.send("Toplam Çalışma süresi: " + tot_time)
         await ctx.send("Başlangıç: " + str_time.strftime("%H:%M:%S") + ", Bitiş: " + now_t.strftime("%H:%M:%S"))
 
 client.add_command(stop)
