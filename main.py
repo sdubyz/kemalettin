@@ -227,7 +227,6 @@ async def stop(ctx):
         log_file = open(lab_file, "a")
         log_file.write("Bitiş " + now + "\n")
         log_file.close()
-        await ctx.send("")
         diff = str(datetime.strptime(
             now[-8:], FMT) - datetime.strptime(start[-9:-1], FMT))
         await ctx.send("Toplam Çalışma süresi: " + diff)
