@@ -237,8 +237,12 @@ async def stop(ctx):
         log_file.close()
         diff = str(datetime.strptime(
             now[-8:], FMT) - datetime.strptime(start[-9:-1], FMT))
+        str_time = datetime.strptime(
+            start[-9:-1], FMT) + datetime.strptime("03:00:00", FMT)
+        now_t = datetime.strptime(
+            now[-8:], FMT) + datetime.strptime("03:00:00", FMT)
         await ctx.send("Toplam Çalışma süresi: " + diff)
-        await ctx.send("Başlangıç: " + last_line[-9:-1] + ", Bitiş: " + now[-8:])
+        await ctx.send("Başlangıç: " + str_time.strftime("%H:%M:%S") + ", Bitiş: " + now_t.strftime("%H:%M:%S"))
 
 client.add_command(stop)
 
