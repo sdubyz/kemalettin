@@ -200,7 +200,6 @@ async def cont(ctx):
                     last_line = line
                 else:
                     continue
-        # print(last_line[-9:])
         f.close()
         FMT = '%H:%M:%S'
         now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
@@ -225,16 +224,22 @@ async def stop(ctx):
             for line in f:
                 pass
             last_line = line
-
+        tot_file = check_user(lab_file)
+        now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+        FMT = '%H:%M:%S'
+        if last_line.startswith("Başlangıç"):
+            tot_time = str(datetime.strptime(
+                now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
+            tot_fi = open(tot_file, "a")
+            tot_fi.write(tot_time + "\n")
+            tot_fi.close()
         f = open(lab_file, "r")
         start = f.readline()
         f.close()
-        FMT = '%H:%M:%S'
-        now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+
         log_file = open(lab_file, "a")
         log_file.write("Bitiş " + now + "\n")
         log_file.close()
-        tot_file = check_user(lab_file)
         tot_time = datetime.strptime("00:00:00", FMT)
         time_zero = datetime.strptime('00:00:00', FMT)
         with open(tot_file) as f:
