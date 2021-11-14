@@ -149,6 +149,7 @@ async def start(ctx):
         now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
         log_file.write("Başlangıç " + now + "\n")
         log_file.close()
+        open(check_user(lab_file), 'w').close()
         await ctx.send("İyi çalışmalar!")
 
 
