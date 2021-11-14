@@ -161,27 +161,27 @@ async def pause(ctx):
     if (lab_file == "wrong"):
         return
     else:
-      with open(lab_file) as f:
-          for line in f:
-            pass
-      if (line.startswith("Mola")):
-        await ctx.send("Zaten Moladasınız!")
-        return
-      else:
-        last_line = line
-        now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
-        log_file = open(lab_file, "a")
-        log_file.write("Mola başlangıç " + now + "\n")
-        log_file.close()
-        FMT = '%H:%M:%S'
-        tot_time = str(datetime.strptime(
-          now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
-        tot_fi_name = check_user(lab_file)
-        tot_file = open(tot_fi_name, "a")
-        tot_file.write(tot_time + "\n")
-        tot_file.close()
-        await ctx.send("Süre duraklatıldı!")
-        await ctx.send("Çalıştığınız Süre: " + tot_time)
+        with open(lab_file) as f:
+            for line in f:
+                pass
+        if (line.startswith("Mola")):
+            await ctx.send("Zaten Moladasınız!")
+            return
+        else:
+            last_line = line
+            now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+            log_file = open(lab_file, "a")
+            log_file.write("Mola başlangıç " + now + "\n")
+            log_file.close()
+            FMT = '%H:%M:%S'
+            tot_time = str(datetime.strptime(
+                now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
+            tot_fi_name = check_user(lab_file)
+            tot_file = open(tot_fi_name, "a")
+            tot_file.write(tot_time + "\n")
+            tot_file.close()
+            await ctx.send("Süre duraklatıldı!")
+            await ctx.send("Çalıştığınız Süre: " + tot_time)
 
 client.add_command(pause)
 
@@ -239,6 +239,36 @@ async def stop(ctx):
         await ctx.send("Başlangıç: " + last_line[-9:-1] + ", Bitiş: " + now[-8:])
 
 client.add_command(stop)
+
+
+@commands.command()
+async def time(ctx):
+    lab_file = check_valid(ctx)
+    if (lab_file == "wrong"):
+        return
+    else:
+        with open(lab_file) as f:
+            for line in f:
+                pass
+        if (line.startswith("Mola")):
+            mola = True
+        else:
+            mola = False
+
+        last_line = line
+        now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+        log_file = open(lab_file, "a")
+        log_file.write("Mola başlangıç " + now + "\n")
+        log_file.close()
+        FMT = '%H:%M:%S'
+        tot_time = str(datetime.strptime(
+            now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
+        if (mola):
+            await ctx.send("Çalıştığınız Süre: " + tot_time)
+        else:
+            await ctx.send("Mola Süreniz: " + tot_time)
+
+client.add_command(time)
 
 my_secret = os.environ['TOKEN']
 keep_alive()
