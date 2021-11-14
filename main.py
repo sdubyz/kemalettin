@@ -9,13 +9,11 @@ from discord import Color
 from datetime import datetime, timedelta
 from check_user import check_valid, check_user
 
-spoti = discord.Spotify(created_at=datetime(2017, 11, 28, 23, 55, 59, 342380),
-                        title="Her Halini Severim", artists=["Feyyaz Yiğit"], track_id="3dkYQ7bsUmGKn0FPSbtXNu")
 
 music = discord.Activity(
     type=discord.ActivityType.listening, name="Her Halini Severim")
 client = commands.Bot(command_prefix="!",
-                      status=discord.Status.online, activity=spoti)
+                      status=discord.Status.online, activity=music)
 
 
 @client.event
@@ -24,6 +22,7 @@ async def on_ready():
     rates.start()
     daily_update.start()
     ch_name.start()
+    check_if_con.start()
 
 nameFile = 'dolar.txt'
 
@@ -103,7 +102,7 @@ async def ch_name():
     await channel.edit(name="dolar-{}".format(dollar))
 
 
-@tasks.loop(second=5)
+@tasks.loop(seconds=5)
 async def check_if_con():
     channel = client.get_channel(764085102648098821)
     hra = discord.User.id(462700306724290563)
