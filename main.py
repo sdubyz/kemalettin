@@ -238,8 +238,7 @@ async def stop(ctx):
         tot_time = datetime.strptime("00:00:00", FMT)
         with open(tot_file) as f:
             for line in f:
-                tot_time += datetime.strptime(line, FMT)
-                print(tot_time)
+                print(str(datetime.strptime(line, FMT)))
 
         diff = str(datetime.strptime(
             now[-8:], FMT) - datetime.strptime(start[-9:-1], FMT))
