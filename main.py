@@ -196,20 +196,22 @@ async def cont(ctx):
     else:
         with open(lab_file) as f:
             for line in f:
-                if (line.startswith("Mola")):
-                    last_line = line
-                else:
-                    continue
-        f.close()
-        FMT = '%H:%M:%S'
-        now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
-        log_file = open(lab_file, "a")
-        log_file.write("Başlangıç " + now + "\n")
-        log_file.close()
-        await ctx.send("İyi çalışmalar!")
-        diff = str(datetime.strptime(
-            now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
-        await ctx.send("Mola Süresi: " + diff)
+                pass
+        if (line.startswith("Başlangıç")):
+            await ctx.send("Zaten süre devam etmekte!")
+            return
+        else:
+
+            last_line = line
+            FMT = '%H:%M:%S'
+            now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+            log_file = open(lab_file, "a")
+            log_file.write("Başlangıç " + now + "\n")
+            log_file.close()
+            await ctx.send("İyi çalışmalar!")
+            diff = str(datetime.strptime(
+                now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
+            await ctx.send("Mola Süresi: " + diff)
 
 client.add_command(cont)
 
