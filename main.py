@@ -257,9 +257,6 @@ async def time(ctx):
 
         last_line = line
         now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
-        log_file = open(lab_file, "a")
-        log_file.write("Mola başlangıç " + now + "\n")
-        log_file.close()
         FMT = '%H:%M:%S'
         tot_time = str(datetime.strptime(
             now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
