@@ -7,7 +7,7 @@ from scrap import currency
 from scrap2 import daily
 from discord import Color
 from datetime import datetime
-from check_user import check_valid
+from check_user import check_valid, check_user
 
 music = discord.Activity(
     type=discord.ActivityType.listening, name="Her Halini Severim")
@@ -173,9 +173,14 @@ async def pause(ctx):
         log_file.write("Mola başlangıç " + now + "\n")
         log_file.close()
         FMT = '%H:%M:%S'
-        #print(datetime.strptime(last_line[-9:-1], FMT).strftime("%H:%M:%S"))
+        tot_time = str(datetime.strptime(
+            now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
+        tot_fi_name = check_user(lab_file)
+        tot_file = open(tot_fi_name, "a")
+        tot_file.write(tot_time)
+        tot_file.close()
         await ctx.send("Süre duraklatıldı!")
-        await ctx.send("Çalıştığınız Süre: "+str(datetime.strptime(now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT)))
+        await ctx.send("Çalıştığınız Süre: " + tot_time)
 
 client.add_command(pause)
 

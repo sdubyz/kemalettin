@@ -19,3 +19,12 @@ def check_valid(ctx):
             return "unknown_user.txt"
     else:
         return "wrong"
+
+
+def check_user(txt_file):
+    if txt_file == "irem.txt":
+        return "irem_tot.txt"
+    elif txt_file == "guzi.txt":
+        return "guzi_tot.txt"
+    elif txt_file == "hra.txt":
+        return "hra_tot.txt"
