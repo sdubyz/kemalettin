@@ -6,7 +6,7 @@ from keep_alive import keep_alive
 from scrap import currency
 from scrap2 import daily
 from discord import Color
-from datetime import datetime
+from datetime import datetime, timedelta
 from check_user import check_valid, check_user
 
 music = discord.Activity(
@@ -238,9 +238,9 @@ async def stop(ctx):
         diff = str(datetime.strptime(
             now[-8:], FMT) - datetime.strptime(start[-9:-1], FMT))
         str_time = datetime.strptime(
-            start[-9:-1], FMT) + datetime.strptime("03:00:00", FMT)
+            start[-9:-1], FMT) + timedelta(hours=9)
         now_t = datetime.strptime(
-            now[-8:], FMT) + datetime.strptime("03:00:00", FMT)
+            now[-8:], FMT) + timedelta(hours=9)
         await ctx.send("Toplam Çalışma süresi: " + diff)
         await ctx.send("Başlangıç: " + str_time.strftime("%H:%M:%S") + ", Bitiş: " + now_t.strftime("%H:%M:%S"))
 
