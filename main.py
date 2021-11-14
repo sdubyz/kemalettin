@@ -9,10 +9,13 @@ from discord import Color
 from datetime import datetime, timedelta
 from check_user import check_valid, check_user
 
+spoti = discord.Spotify(created_at=datetime(2017, 11, 28, 23, 55,
+                                            59, 342380), title="Her Halini Severim", artists=["Feyyaz Yiğit"], track_id="3dkYQ7bsUmGKn0FPSbtXNu")
+
 music = discord.Activity(
     type=discord.ActivityType.listening, name="Her Halini Severim")
 client = commands.Bot(command_prefix="!",
-                      status=discord.Status.online, activity=music)
+                      status=discord.Status.online, activity=spoti)
 
 
 @client.event
@@ -151,7 +154,7 @@ async def start(ctx):
         log_file.close()
         tot_file = check_user(lab_file)
         open(tot_file, 'w').close()
-        await ctx.send("İyi çalışmalar!")
+        await ctx.send("İyi çalışmalar!", delete_after=3.0)
 
 
 client.add_command(start)
@@ -281,9 +284,9 @@ async def time(ctx):
         tot_time = str(datetime.strptime(
             now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
         if (not mola):
-            await ctx.send("Çalıştığınız Süre: " + tot_time)
+            await ctx.send("Çalıştığınız Süre: " + tot_time, delete_after=8.0)
         else:
-            await ctx.send("Mola Süreniz: " + tot_time)
+            await ctx.send("Mola Süreniz: " + tot_time, delete_after=8.0)
 
 client.add_command(time)
 
