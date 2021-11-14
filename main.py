@@ -7,10 +7,9 @@ from scrap import currency
 from scrap2 import daily
 from discord import Color
 from datetime import datetime
-import time
+from check_user import check_valid
 
-music = discord.Activity(type=discord.ActivityType.listening, name ="Her Halini Severim", start=datetime(2021, 5, 30, 12, 12, 12, 342380))
-#music = Spotify(title='Her Halini Severim', artist='Feyyaz Yiğit')
+music = discord.Activity(type=discord.ActivityType.listening, name ="Her Halini Severim")
 client = commands.Bot(command_prefix="!", status=discord.Status.online, activity=music)
 
 @client.event
@@ -23,7 +22,6 @@ async def on_ready():
 nameFile = 'dolar.txt'
 
 file1 = open(nameFile, "r")
-n = ''
 n = float(file1.read())
 
 green = Color.dark_green()
@@ -133,22 +131,12 @@ hra_id = 462700306724290563
 
 @commands.command()
 async def start(ctx):
-  if ctx.message.channel.id in lab_lib_ch:
-    if ctx.message.author.id == ir_id:
-      lab_file = "irem.txt"
-    elif ctx.message.author.id == guz_id:
-      lab_file = "guzi.txt"
-    elif ctx.message.author.id == hra_id:
-      lab_file = "hra.txt"
-    else:
-      return
-    
-    log_file = open(lab_file, "w")
-    log_file.write("Başlangıç " + datetime.now().strftime("%m-%d-%Y %H:%M:%S") +"\n")
-    log_file.close()
-    await ctx.send("İyi çalışmalar!")
-  else:
-    return
+  lab_file = check_valid(ctx)
+  log_file = open(lab_file, "w")
+  log_file.write("Başlangıç " + datetime.now().strftime("%m-%d-%Y %H:%M:%S") +"\n")
+  log_file.close()
+  await ctx.send("İyi çalışmalar!")
+
 
 client.add_command(start)
 
@@ -231,7 +219,6 @@ async def stop(ctx):
       for line in f:
         pass
       last_line = line
-    #print(last_line[-9:])
     f.close()   
 
     f = open(lab_file, "r")
@@ -242,7 +229,7 @@ async def stop(ctx):
     log_file = open(lab_file, "a")
     log_file.write("Bitiş " + now +"\n")
     log_file.close()
-    await ctx.send("İyi çalışmalar!")
+    await ctx.send("")
     diff = str(datetime.strptime(now[-8:], FMT) - datetime.strptime(start[-9:-1], FMT))
     await ctx.send("Toplam Çalışma süresi: "+ diff)
     await ctx.send("Başlangıç: " + last_line[-9:-1] +", Bitiş: "+ now[-8:])
