@@ -263,7 +263,7 @@ async def time(ctx):
         FMT = '%H:%M:%S'
         tot_time = str(datetime.strptime(
             now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
-        if (mola):
+        if (not mola):
             await ctx.send("Çalıştığınız Süre: " + tot_time)
         else:
             await ctx.send("Mola Süreniz: " + tot_time)
