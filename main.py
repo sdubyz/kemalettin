@@ -8,11 +8,12 @@ from scrap2 import daily
 from discord import Color
 from datetime import datetime, timedelta
 from check_user import check_valid, check_user
+from discord.utils import get
 
 music = discord.Activity(
     type=discord.ActivityType.listening, name="Her Halini Severim")
 client = commands.Bot(command_prefix="!",
-                      status=discord.Status.online, activity=spoti)
+                      status=discord.Status.online, activity=music)
 
 
 @client.event
@@ -21,6 +22,7 @@ async def on_ready():
     rates.start()
     daily_update.start()
     ch_name.start()
+    check_if_con.start()
 
 nameFile = 'dolar.txt'
 
