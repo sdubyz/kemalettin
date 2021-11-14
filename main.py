@@ -247,7 +247,7 @@ async def stop(ctx):
             start[-9:-1], FMT) + timedelta(hours=3)
         now_t = datetime.strptime(
             now[-8:], FMT) + timedelta(hours=3)
-        await ctx.send("Toplam Çalışma süresi: " + tot_time)
+        await ctx.send("Toplam Çalışma süresi: " + tot_time.strftime("%H:%M:%S"))
         await ctx.send("Başlangıç: " + str_time.strftime("%H:%M:%S") + ", Bitiş: " + now_t.strftime("%H:%M:%S"))
 
 client.add_command(stop)
