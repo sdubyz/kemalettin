@@ -225,7 +225,6 @@ async def stop(ctx):
             for line in f:
                 pass
             last_line = line
-        f.close()
 
         f = open(lab_file, "r")
         start = f.readline()
@@ -240,6 +239,7 @@ async def stop(ctx):
         with open(tot_file) as f:
             for line in f:
                 tot_time += datetime.strptime(line, FMT)
+                print(tot_time)
 
         diff = str(datetime.strptime(
             now[-8:], FMT) - datetime.strptime(start[-9:-1], FMT))
@@ -247,7 +247,7 @@ async def stop(ctx):
             start[-9:-1], FMT) + timedelta(hours=3)
         now_t = datetime.strptime(
             now[-8:], FMT) + timedelta(hours=3)
-        await ctx.send("Toplam Çalışma süresi: " + tot_time.strftime("%H:%M:%S"))
+        await ctx.send("Toplam Çalışma süresi: " + diff)
         await ctx.send("Başlangıç: " + str_time.strftime("%H:%M:%S") + ", Bitiş: " + now_t.strftime("%H:%M:%S"))
 
 client.add_command(stop)
