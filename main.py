@@ -13,15 +13,15 @@ from discord.utils import get
 music = discord.Activity(
     type=discord.ActivityType.listening, name="Her Halini Severim")
 client = commands.Bot(command_prefix="!",
-                      status=discord.Status.online, activity=music)
+                      status=discord.Status.online, activity=music )
 
 
 @client.event
 async def on_ready():
     print('{0.user} is ready to go!'.format(client))
     rates.start()
-    daily_update.start()
-    ch_name.start()
+    #daily_update.start()
+    #ch_name.start()
     #check_if_con.start()
 
 nameFile = 'dolar.txt'
@@ -102,12 +102,13 @@ async def ch_name():
     await channel.edit(name="dolar-{}".format(dollar))
 
 
-@tasks.loop(seconds=5)
+@tasks.loop(seconds=2)
 async def check_if_con():
     channel1 = client.get_channel(764085102648098821)
     labne = client.get_guild(764085102648098817)
     text_ch = client.get_channel(909170792347107358)
     hra = await labne.fetch_member(462700306724290563)
+
     #irm = labne.get_member(522835029596831774)
     #guz = labne.get_member(522825818225901578)
     #members = [hra, irm, guz]
