@@ -22,7 +22,7 @@ async def on_ready():
     rates.start()
     daily_update.start()
     ch_name.start()
-    check_if_con.start()
+    #check_if_con.start()
 
 nameFile = 'dolar.txt'
 
@@ -111,13 +111,13 @@ async def check_if_con():
     #irm = labne.get_member(522835029596831774)
     #guz = labne.get_member(522825818225901578)
     #members = [hra, irm, guz]
-    print(hra.name)
-    if hra.voice is None:
-      await text_ch.send("no")
-    else:
-      if hra.voice.channel == channel1:
-        await text_ch.send("yea")
-        check_if_con.stop()
+    #print(hra.name)
+    #if hra.voice is None:
+      #await text_ch.send("no")
+    #else:
+      #if hra.voice.channel == channel1:
+        #await text_ch.send("yea")
+        #check_if_con.stop()
     #print(labne.name)
     #if hra in channel.members:
     #    print("yes")
