@@ -1,15 +1,12 @@
 import os
 import discord
-from discord.ext import commands
-from discord.ext import tasks
+from discord.ext import commands, tasks
 from keep_alive import keep_alive
 from scrap import currency
 from scrap2 import daily
-from discord import Color, GroupCall
+from discord import Color
 from datetime import datetime, timedelta
 from check_user import check_valid, check_user
-from discord.utils import get
-
 music = discord.Activity(
     type=discord.ActivityType.listening, name="Her Halini Severim")
 client = commands.Bot(command_prefix="!",
