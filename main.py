@@ -7,6 +7,7 @@ from scrap2 import daily
 from discord import Color
 from datetime import datetime, timedelta
 from check_user import check_valid, check_user, check_valid_user_reaction
+from timer import pause_reaction
 
 music = discord.Activity(
     type=discord.ActivityType.listening, name="Her Halini Severim")
@@ -324,10 +325,10 @@ client.add_command(timer)
 
 @client.event
 async def on_reaction_add(reaction, membr):  
-  if reaction.emoji.id == startEmojiID:
+  if reaction.emoji.id == pauseEmojiID:
     channel = reaction.message.channel
     if reaction.count > 1:
-      message = check_valid_user_reaction(channel.id, membr.id)
+      message = pause_reaction(channel, membr)
       await channel.send(message)
       await channel.send("reaction added")
   else:
