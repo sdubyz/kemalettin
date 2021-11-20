@@ -8,6 +8,14 @@ pauseEmojiID = 911666600342589451
 stopEmoji = "<:stop:911666606965391391>"
 stopEmojiID = 911666606965391391
 
+startEmoji_t = "<:start:911666089115660338>"
+startEmojiID_t = 911666089115660338
+pauseEmoji_t = "<:pause:911666263988785203>"
+pauseEmojiID_t = 911666263988785203
+stopEmoji_t = "<:stop:911666095822352474>"
+stopEmojiID_t = 911666095822352474
+
+
 async def pause_reaction(chn, membr):
     lab_file = check_valid_user_reaction(chn, membr)
     if (lab_file == "wrong"):
@@ -17,7 +25,7 @@ async def pause_reaction(chn, membr):
             for line in f:
                 pass
         if (line.startswith("Mola")):
-            await chn.send("Zaten Moladasınız!", delete_after = 3.0)
+            await chn.send("Zaten Moladasınız!", delete_after = 5.0)
             return
         else:
             last_line = line
@@ -32,10 +40,10 @@ async def pause_reaction(chn, membr):
             tot_file = open(tot_fi_name, "a")
             tot_file.write(tot_time + "\n")
             tot_file.close()
-            await chn.send("Süre duraklatıldı!", delete_after=3.0)
-            message = await chn.send("Çalıştığınız Süre: " + tot_time)
-            await message.add_reaction(startEmoji)
-            await message.add_reaction(stopEmoji)
+            await chn.send("Süre duraklatıldı!", delete_after=5.0)
+            message = await chn.send("Çalışma Süresi: " + tot_time)
+            await message.add_reaction(startEmoji_t)
+            await message.add_reaction(stopEmoji_t)
 
 async def cont_reaction(chn, membr):
     lab_file = check_valid_user_reaction(chn, membr)
@@ -56,12 +64,12 @@ async def cont_reaction(chn, membr):
             log_file = open(lab_file, "a")
             log_file.write("Başlangıç " + now + "\n")
             log_file.close()
-            await chn.send("İyi çalışmalar!", delete_after=3.0)
+            await chn.send("İyi çalışmalar!", delete_after=5.0)
             diff = str(datetime.strptime(
                 now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
             message = await chn.send("Mola Süresi: " + diff)
-            await message.add_reaction(pauseEmoji)
-            await message.add_reaction(stopEmoji)
+            await message.add_reaction(pauseEmoji_t)
+            await message.add_reaction(stopEmoji_t)
 
 
 async def stop_reaction(chn, membr):

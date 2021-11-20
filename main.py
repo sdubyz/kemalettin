@@ -334,14 +334,17 @@ client.add_command(timer)
 async def on_reaction_add(reaction, membr):  
   if reaction.count > 1:
     channel = reaction.message.channel
-    if reaction.emoji.id == pauseEmojiID:
+    if reaction.emoji.id == pauseEmojiID_t:
       await pause_reaction(channel, membr)
+      await reaction.message.clear_reactions()
       #await channel.send("reaction added")
-    elif reaction.emoji.id == stopEmojiID:
+    elif reaction.emoji.id == stopEmojiID_t:
       #await channel.send("reaction added")
       await stop_reaction(channel, membr)
-    elif reaction.emoji.id == startEmojiID:
+      await reaction.message.clear_reactions()
+    elif reaction.emoji.id == startEmojiID_t:
       await cont_reaction(channel, membr)
+      await reaction.message.clear_reactions()
       #await channel.send("reaction added")      
 
 labne_lib = 525024033381810176
