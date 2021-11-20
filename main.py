@@ -6,7 +6,8 @@ from scrap import currency
 from scrap2 import daily
 from discord import Color
 from datetime import datetime, timedelta
-from check_user import check_valid, check_user
+from check_user import check_valid, check_user, check_valid_user_reaction
+
 music = discord.Activity(
     type=discord.ActivityType.listening, name="Her Halini Severim")
 client = commands.Bot(command_prefix="!",
@@ -319,10 +320,13 @@ async def timer(ctx):
 client.add_command(timer)
 
 @client.event
-async def on_reaction_add(startEmoji, hra):
+async def on_reaction_add(reaction, membr):
+  if reaction == startEmoji and membr.id == hra_id:    
     channel = startEmoji.message.channel
     if startEmoji.count > 1:
+      print(channel, membr)
       await channel.send("reaction added")
+
 
 #my_secret = os.environ['TOKEN']
 keep_alive()
