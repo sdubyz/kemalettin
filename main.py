@@ -31,6 +31,10 @@ red = Color.red()
 prev = [n]
 file1.close()
 
+startEmoji = "<:start:911666089115660338>"
+pauseEmoji = "<:pause:911666263988785203>"
+stopEmoji = "<:stop:911666095822352474>"
+
 
 @tasks.loop(seconds=20)
 async def rates():
@@ -135,7 +139,8 @@ client.add_command(curr)
 
 @commands.command()
 async def say(ctx, *args):
-    await ctx.send(" ".join(args))
+    message = await ctx.send(" ".join(args))
+    await message.add_reaction(startEmoji)
 
 client.add_command(say)
 
@@ -161,7 +166,6 @@ ir_id = 522835029596831774
 guz_id = 522825818225901578
 hra_id = 462700306724290563
 
-
 @commands.command()
 async def start(ctx):
     lab_file = check_valid(ctx)
@@ -174,7 +178,11 @@ async def start(ctx):
         log_file.close()
         tot_file = check_user(lab_file)
         open(tot_file, 'w').close()
-        await ctx.send("İyi çalışmalar!", delete_after=3.0)
+        global theMessage
+        theMessage = await ctx.send("İyi çalışmalar!")
+        await theMessage.add_reaction(startEmoji)
+        await theMessage.add_reaction(pauseEmoji)
+        await theMessage.add_reaction(stopEmoji)
 
 
 client.add_command(start)
@@ -190,7 +198,7 @@ async def pause(ctx):
             for line in f:
                 pass
         if (line.startswith("Mola")):
-            await ctx.send("Zaten Moladasınız!")
+            await ctx.send("Zaten Moladasınız!", delete_after = 3.0)
             return
         else:
             last_line = line
@@ -284,8 +292,8 @@ async def stop(ctx):
 client.add_command(stop)
 
 
-@commands.command()
-async def time(ctx):
+@commands.command(name="time")
+async def timer(ctx):
     lab_file = check_valid(ctx)
     if (lab_file == "wrong"):
         return
@@ -308,8 +316,14 @@ async def time(ctx):
         else:
             await ctx.send("Mola Süreniz: " + tot_time, delete_after=8.0)
 
-client.add_command(time)
+client.add_command(timer)
 
-my_secret = os.environ['TOKEN']
+@client.event
+async def on_reaction_add(startEmoji, hra):
+    channel = startEmoji.message.channel
+    if startEmoji.count > 1:
+      await channel.send("reaction added")
+
+#my_secret = os.environ['TOKEN']
 keep_alive()
 client.run(os.getenv('TOKEN'))
