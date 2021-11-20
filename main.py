@@ -177,7 +177,7 @@ lab_lib_ch = [909170792347107358, 901055167825346600, 845613490000494602,
 ir_id = 522835029596831774
 guz_id = 522825818225901578
 hra_id = 462700306724290563
-
+lab_ids = [ir_id, guz_id, hra_id]
 @commands.command()
 async def start(ctx):
     lab_file = check_valid(ctx)
@@ -332,19 +332,19 @@ client.add_command(timer)
 
 @client.event
 async def on_reaction_add(reaction, membr):  
-  if reaction.count > 1:
+  if membr.id in lab_ids:
     channel = reaction.message.channel
-    if reaction.emoji.id == pauseEmojiID_t:
-      await pause_reaction(channel, membr)
-      await reaction.message.clear_reactions()
+    if reaction.emoji.id == pauseEmojiID:
+      if await pause_reaction(channel, membr):      
+        await reaction.message.clear_reactions()
       #await channel.send("reaction added")
-    elif reaction.emoji.id == stopEmojiID_t:
+    elif reaction.emoji.id == stopEmojiID:
       #await channel.send("reaction added")
-      await stop_reaction(channel, membr)
-      await reaction.message.clear_reactions()
-    elif reaction.emoji.id == startEmojiID_t:
-      await cont_reaction(channel, membr)
-      await reaction.message.clear_reactions()
+      if await stop_reaction(channel, membr):
+        await reaction.message.clear_reactions()
+    elif reaction.emoji.id == startEmojiID:
+      if await cont_reaction(channel, membr):
+        await reaction.message.clear_reactions()
       #await channel.send("reaction added")      
 
 labne_lib = 525024033381810176

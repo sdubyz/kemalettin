@@ -19,14 +19,14 @@ stopEmojiID_t = 911666095822352474
 async def pause_reaction(chn, membr):
     lab_file = check_valid_user_reaction(chn, membr)
     if (lab_file == "wrong"):
-        return
+        return False
     else:
         with open(lab_file) as f:
             for line in f:
                 pass
         if (line.startswith("Mola")):
             await chn.send("Zaten Moladasınız!", delete_after = 5.0)
-            return
+            return False
         else:
             last_line = line
             now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
@@ -42,20 +42,21 @@ async def pause_reaction(chn, membr):
             tot_file.close()
             await chn.send("Süre duraklatıldı!", delete_after=5.0)
             message = await chn.send("Çalışma Süresi: " + tot_time)
-            await message.add_reaction(startEmoji_t)
-            await message.add_reaction(stopEmoji_t)
+            await message.add_reaction(startEmoji)
+            await message.add_reaction(stopEmoji)
+            return True
 
 async def cont_reaction(chn, membr):
     lab_file = check_valid_user_reaction(chn, membr)
     if(lab_file == "wrong"):
-        return
+        return False
     else:
         with open(lab_file) as f:
             for line in f:
                 pass
         if (line.startswith("Başlangıç")):
             await chn.send("Zaten süre devam etmekte!")
-            return
+            return False
         else:
 
             last_line = line
@@ -68,14 +69,15 @@ async def cont_reaction(chn, membr):
             diff = str(datetime.strptime(
                 now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
             message = await chn.send("Mola Süresi: " + diff)
-            await message.add_reaction(pauseEmoji_t)
-            await message.add_reaction(stopEmoji_t)
+            await message.add_reaction(pauseEmoji)
+            await message.add_reaction(stopEmoji)
+            return True
 
 
 async def stop_reaction(chn, membr):
     lab_file = check_valid_user_reaction(chn, membr)
     if(lab_file == "wrong"):
-        return
+        return False
     else:
         with open(lab_file) as f:
             for line in f:
@@ -112,3 +114,4 @@ async def stop_reaction(chn, membr):
             now[-8:], FMT) + timedelta(hours=3)
         await chn.send("Toplam Çalışma süresi: " + str(tot_time.time()))
         await chn.send("Başlangıç: " + str_time.strftime("%H:%M:%S") + ", Bitiş: " + now_t.strftime("%H:%M:%S"))
+        return True
