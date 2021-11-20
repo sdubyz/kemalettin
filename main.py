@@ -7,7 +7,7 @@ from scrap2 import daily
 from discord import Color
 from datetime import datetime, timedelta
 from check_user import check_valid, check_user, check_valid_user_reaction
-from timer import pause_reaction
+from timer import pause_reaction, cont_reaction, stop_reaction
 
 music = discord.Activity(
     type=discord.ActivityType.listening, name="Her Halini Severim")
@@ -33,12 +33,19 @@ red = Color.red()
 prev = [n]
 file1.close()
 
-startEmoji = "<:start:911666089115660338>"
-startEmojiID = 911666089115660338
-pauseEmoji = "<:pause:911666263988785203>"
-pauseEmojiID = 911666263988785203
-stopEmoji = "<:stop:911666095822352474>"
-stopEmojiID = 911666095822352474
+startEmoji_t = "<:start:911666089115660338>"
+startEmojiID_t = 911666089115660338
+pauseEmoji_t = "<:pause:911666263988785203>"
+pauseEmojiID_t = 911666263988785203
+stopEmoji_t = "<:stop:911666095822352474>"
+stopEmojiID_t = 911666095822352474
+
+startEmoji = "<:start:911666593623334962>"
+startEmojiID = 911666593623334962
+pauseEmoji = "<:pause:911666600342589451>"
+pauseEmojiID = 911666600342589451
+stopEmoji = "<:stop:911666606965391391>"
+stopEmojiID = 911666606965391391
 
 
 @tasks.loop(seconds=20)
@@ -185,7 +192,7 @@ async def start(ctx):
         open(tot_file, 'w').close()
         global theMessage
         theMessage = await ctx.send("İyi çalışmalar!")
-        await theMessage.add_reaction(startEmoji)
+        #await theMessage.add_reaction(startEmoji)
         await theMessage.add_reaction(pauseEmoji)
         await theMessage.add_reaction(stopEmoji)
 
@@ -221,7 +228,7 @@ async def pause(ctx):
             await ctx.send("Süre duraklatıldı!", delete_after=3.0)
             await ctx.send("Çalıştığınız Süre: " + tot_time)
 
-client.add_command(pause)
+#client.add_command(pause)
 
 
 @commands.command()
@@ -249,7 +256,7 @@ async def cont(ctx):
                 now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
             await ctx.send("Mola Süresi: " + diff)
 
-client.add_command(cont)
+#client.add_command(cont)
 
 
 @commands.command()
@@ -294,7 +301,7 @@ async def stop(ctx):
         await ctx.send("Toplam Çalışma süresi: " + str(tot_time.time()))
         await ctx.send("Başlangıç: " + str_time.strftime("%H:%M:%S") + ", Bitiş: " + now_t.strftime("%H:%M:%S"))
 
-client.add_command(stop)
+#client.add_command(stop)
 
 
 @commands.command(name="time")
@@ -325,15 +332,26 @@ client.add_command(timer)
 
 @client.event
 async def on_reaction_add(reaction, membr):  
-  if reaction.emoji.id == pauseEmojiID:
+  if reaction.count > 1:
     channel = reaction.message.channel
-    if reaction.count > 1:
-      message = pause_reaction(channel, membr)
-      await channel.send(message)
-      await channel.send("reaction added")
-  else:
-    print(startEmoji)
+    if reaction.emoji.id == pauseEmojiID:
+      await pause_reaction(channel, membr)
+      #await channel.send("reaction added")
+    elif reaction.emoji.id == stopEmojiID:
+      #await channel.send("reaction added")
+      await stop_reaction(channel, membr)
+    elif reaction.emoji.id == startEmojiID:
+      await cont_reaction(channel, membr)
+      #await channel.send("reaction added")      
 
+labne_lib = 525024033381810176
+
+@commands.command(name="emoji")
+async def get_emojis(ctx):
+  guild = client.get_guild(labne_lib)
+  await ctx.send(startEmoji_t)
+
+client.add_command(get_emojis)
 
 #my_secret = os.environ['TOKEN']
 keep_alive()

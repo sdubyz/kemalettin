@@ -7,6 +7,13 @@ guz_id = 522825818225901578
 hra_id = 462700306724290563
 
 
+startEmoji = "<:start:911666089115660338>"
+startEmojiID = 911666089115660338
+pauseEmoji = "<:pause:911666263988785203>"
+pauseEmojiID = 911666263988785203
+stopEmoji = "<:stop:911666095822352474>"
+stopEmojiID = 911666095822352474
+
 def check_valid(ctx):
     if ctx.message.channel.id in lab_lib_ch:
         if ctx.message.author.id == ir_id:
