@@ -33,8 +33,11 @@ prev = [n]
 file1.close()
 
 startEmoji = "<:start:911666089115660338>"
+startEmojiID = 911666089115660338
 pauseEmoji = "<:pause:911666263988785203>"
+pauseEmojiID = 911666263988785203
 stopEmoji = "<:stop:911666095822352474>"
+stopEmojiID = 911666095822352474
 
 
 @tasks.loop(seconds=20)
@@ -320,12 +323,15 @@ async def timer(ctx):
 client.add_command(timer)
 
 @client.event
-async def on_reaction_add(reaction, membr):
-  if reaction == startEmoji and membr.id == hra_id:    
-    channel = startEmoji.message.channel
-    if startEmoji.count > 1:
-      print(channel, membr)
+async def on_reaction_add(reaction, membr):  
+  if reaction.emoji.id == startEmojiID:
+    channel = reaction.message.channel
+    if reaction.count > 1:
+      message = check_valid_user_reaction(channel.id, membr.id)
+      await channel.send(message)
       await channel.send("reaction added")
+  else:
+    print(startEmoji)
 
 
 #my_secret = os.environ['TOKEN']

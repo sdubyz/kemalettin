@@ -21,12 +21,12 @@ def check_valid(ctx):
         return "wrong"
 
 def check_valid_user_reaction(chn, usr):
-    if chn.id in lab_lib_ch:
-        if usr.id == ir_id:
+    if chn in lab_lib_ch:
+        if usr == ir_id:
             return "irem.txt"
-        elif usr.id == guz_id:
+        elif usr == guz_id:
             return "guzi.txt"
-        elif usr.id == hra_id:
+        elif usr == hra_id:
             return "hra.txt"
         else:
             return "unknown_user.txt"
