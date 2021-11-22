@@ -335,10 +335,10 @@ async def on_raw_reaction_add(payload):
   membr = payload.member
   reaction = payload.emoji
   if membr.id in lab_ids:
-    guild = bot.get_guild(payload.guild_id)
-    channel = payload.channel_id
-    text_ch = guild.get_channel(channel)
-    msg = await text_ch.fetch_message(message_id)
+    guild = client.get_guild(payload.guild_id)
+    ch_id = payload.channel_id
+    channel = guild.get_channel(ch_id)
+    msg = await channel.fetch_message(payload.message_id)
     if reaction.id == pauseEmojiID:
       if await pause_reaction(channel, membr):      
         await msg.clear_reactions()
