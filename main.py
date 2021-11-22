@@ -292,8 +292,8 @@ async def stop(ctx):
                 t2 = datetime.strptime(line[:-1], FMT)
                 tot_time = (tot_time - time_zero + t2)
 
-        diff = str(datetime.strptime(
-            now[-8:], FMT) - datetime.strptime(start[-9:-1], FMT))
+        #diff = str(datetime.strptime(
+            #now[-8:], FMT) - datetime.strptime(start[-9:-1], FMT))
         str_time = datetime.strptime(
             start[-9:-1], FMT) + timedelta(hours=3)
         now_t = datetime.strptime(
