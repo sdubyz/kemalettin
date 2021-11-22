@@ -190,11 +190,10 @@ async def start(ctx):
         log_file.close()
         tot_file = check_user(lab_file)
         open(tot_file, 'w').close()
-        global theMessage
         theMessage = await ctx.send("İyi çalışmalar!")
-        #await theMessage.add_reaction(startEmoji)
         await theMessage.add_reaction(pauseEmoji)
         await theMessage.add_reaction(stopEmoji)
+        await ctx.message.delete()
 
 
 client.add_command(start)
@@ -226,9 +225,12 @@ async def pause(ctx):
             tot_file.write(tot_time + "\n")
             tot_file.close()
             await ctx.send("Süre duraklatıldı!", delete_after=3.0)
-            await ctx.send("Çalıştığınız Süre: " + tot_time)
+            msg = await ctx.send("Çalıştığınız Süre: " + tot_time)
+            await msg.add_reaction(startEmoji)
+            await msg.add_reaction(stopEmoji)
+            await ctx.message.delete()            
 
-#client.add_command(pause)
+client.add_command(pause)
 
 
 @commands.command()
@@ -254,9 +256,12 @@ async def cont(ctx):
             await ctx.send("İyi çalışmalar!", delete_after=3.0)
             diff = str(datetime.strptime(
                 now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
-            await ctx.send("Mola Süresi: " + diff)
+            msg = await ctx.send("Mola Süresi: " + diff)
+            await msg.add_reaction(pauseEmoji)
+            await msg.add_reaction(stopEmoji)
+            await ctx.message.delete()
 
-#client.add_command(cont)
+client.add_command(cont)
 
 
 @commands.command()
@@ -300,8 +305,9 @@ async def stop(ctx):
             now[-8:], FMT) + timedelta(hours=3)
         await ctx.send("Toplam Çalışma süresi: " + str(tot_time.time()))
         await ctx.send("Başlangıç: " + str_time.strftime("%H:%M:%S") + ", Bitiş: " + now_t.strftime("%H:%M:%S"))
+        await ctx.message.delete()
 
-#client.add_command(stop)
+client.add_command(stop)
 
 
 @commands.command(name="time")
@@ -327,6 +333,7 @@ async def timer(ctx):
             await ctx.send("Çalıştığınız Süre: " + tot_time, delete_after=8.0)
         else:
             await ctx.send("Mola Süreniz: " + tot_time, delete_after=8.0)
+            await ctx.message.delete()
 
 client.add_command(timer)
 
@@ -352,11 +359,11 @@ async def on_raw_reaction_add(payload):
         await msg.clear_reactions()
       #await channel.send("reaction added")      
 
-labne_lib = 525024033381810176
+#labne_lib = 525024033381810176
 
 @commands.command(name="emoji")
 async def get_emojis(ctx):
-  guild = client.get_guild(labne_lib)
+  #guild = client.get_guild(labne_lib)
   await ctx.send(startEmoji_t)
 
 client.add_command(get_emojis)

@@ -126,6 +126,7 @@ async def stop_reaction(chn, membr):
                 now[-8:], FMT) + timedelta(hours=3)
             await chn.send("Toplam Çalışma süresi: " + str(tot_time.time()))
             await chn.send("Başlangıç: " + str_time.strftime("%H:%M:%S") + ", Bitiş: " + now_t.strftime("%H:%M:%S"))
+            open(lab_file, 'w').close()
             return True
         else:
             return False
