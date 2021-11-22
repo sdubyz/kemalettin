@@ -16,7 +16,8 @@ stopEmoji_t = "<:stop:911666095822352474>"
 stopEmojiID_t = 911666095822352474
 
 
-async def pause_reaction(chn, membr):
+async def pause_reaction(chn_id, membr):
+    chn = bot.get_channel(chn_id)
     lab_file = check_valid_user_reaction(chn, membr)
     if (lab_file == "wrong"):
         return False
@@ -46,7 +47,8 @@ async def pause_reaction(chn, membr):
             await message.add_reaction(stopEmoji)
             return True
 
-async def cont_reaction(chn, membr):
+async def cont_reaction(chn_id, membr):
+    chn = bot.get_channel(chn_id)
     lab_file = check_valid_user_reaction(chn, membr)
     if(lab_file == "wrong"):
         return False
@@ -74,7 +76,8 @@ async def cont_reaction(chn, membr):
             return True
 
 
-async def stop_reaction(chn, membr):
+async def stop_reaction(chn_id, membr):
+    chn = bot.get_channel(chn_id)  
     lab_file = check_valid_user_reaction(chn, membr)
     if(lab_file == "wrong"):
         return False

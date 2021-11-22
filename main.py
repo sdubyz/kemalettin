@@ -331,20 +331,25 @@ async def timer(ctx):
 client.add_command(timer)
 
 @client.event
-async def on_reaction_add(reaction, membr):  
+async def on_raw_reaction_add(payload):
+  membr = payload.member
+  reaction = payload.emoji
   if membr.id in lab_ids:
-    channel = reaction.message.channel
-    if reaction.emoji.id == pauseEmojiID:
+    guild = bot.get_guild(payload.guild_id)
+    channel = payload.channel_id
+    text_ch = guild.get_channel(channel)
+    msg = await text_ch.fetch_message(message_id)
+    if reaction.id == pauseEmojiID:
       if await pause_reaction(channel, membr):      
-        await reaction.message.clear_reactions()
+        await msg.clear_reactions()
       #await channel.send("reaction added")
-    elif reaction.emoji.id == stopEmojiID:
+    elif reaction.id == stopEmojiID:
       #await channel.send("reaction added")
       if await stop_reaction(channel, membr):
-        await reaction.message.clear_reactions()
-    elif reaction.emoji.id == startEmojiID:
+        await msg.clear_reactions()
+    elif reaction.id == startEmojiID:
       if await cont_reaction(channel, membr):
-        await reaction.message.clear_reactions()
+        await msg.clear_reactions()
       #await channel.send("reaction added")      
 
 labne_lib = 525024033381810176
