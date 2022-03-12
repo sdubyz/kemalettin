@@ -2,11 +2,10 @@ import os
 import discord
 from discord.ext import commands, tasks
 from keep_alive import keep_alive
-from scrap import currency
-from scrap2 import daily
+from scrap import currency, daily
 from discord import Color
 from datetime import datetime, timedelta
-from check_user import check_valid, check_user, check_valid_user_reaction
+from check_user import check_valid, check_user
 from timer import pause_reaction, cont_reaction, stop_reaction
 
 music = discord.Activity(
@@ -50,54 +49,57 @@ stopEmojiID = 911666606965391391
 
 @tasks.loop(seconds=20)
 async def rates():
-    channel = client.get_channel(901924767513329695)
-    channel2 = client.get_channel(902109009329389598)
-    # ch_labne = client.get_channel(838136630425944066)
+  try:
+      channel = client.get_channel(901924767513329695)
+      channel2 = client.get_channel(902109009329389598)
+      #ch_labne = client.get_channel(838136630425944066)
 
-    dollar = float(str(currency()).replace(",", "."))
-    up = '<:greenUp:902101687043514378> '
-    down = '<:redDown:902101653845594142> '
+      dollar = float(str(currency()).replace(",", "."))
+      up = '<:greenUp:902101687043514378> '
+      down = '<:redDown:902101653845594142> '
 
-    up2 = '<:greenUp:902110266278424606> '
-    down2 = '<:redDown:902110295986679860> '
+      up2 = '<:greenUp:902110266278424606> '
+      down2 = '<:redDown:902110295986679860> '
 
-    diff = abs(((dollar - prev[0]) / prev[0])*100)
-    if(diff <= 0.025):
-        pass
-    else:
-        if (prev[0] <= dollar):
-            pos_ratio = '```diff\nDolar: {} ₺\n+ %{}\n```'.format(
-                dollar, round(diff, 4))
-            em = discord.Embed(color=green, title="")
-            em.add_field(name=up*6, value=pos_ratio)
+      diff = abs(((dollar - prev[0]) / prev[0])*100)
+      if(diff <= 0.025):
+          pass
+      else:
+          if (prev[0] <= dollar):
+              pos_ratio = '```diff\nDolar: {} ₺\n+ %{}\n```'.format(
+                  dollar, round(diff, 4))
+              em = discord.Embed(color=green, title="")
+              em.add_field(name=up*6, value=pos_ratio)
 
-            em2 = discord.Embed(color=green, title="")
-            em2.add_field(name=up2*6, value=pos_ratio)
-        else:
-            neg_ratio = '```diff\nDolar: {} ₺\n- %{}\n```'.format(
-                dollar, round(diff, 4))
-            em = discord.Embed(color=red, title="")
-            em.add_field(name=down*6, value=neg_ratio)
+              em2 = discord.Embed(color=green, title="")
+              em2.add_field(name=up2*6, value=pos_ratio)
+          else:
+              neg_ratio = '```diff\nDolar: {} ₺\n- %{}\n```'.format(
+                  dollar, round(diff, 4))
+              em = discord.Embed(color=red, title="")
+              em.add_field(name=down*6, value=neg_ratio)
 
-            em2 = discord.Embed(color=red, title="")
-            em2.add_field(name=down2*6, value=neg_ratio)
+              em2 = discord.Embed(color=red, title="")
+              em2.add_field(name=down2*6, value=neg_ratio)
 
-        prev.pop(0)
-        prev.append(dollar)
-        file1 = open(nameFile, "w")
-        file1.write(str(dollar))
-        file1.close()
-        em3 = discord.Embed(color=red, title="")
-        em3.add_field(name="DOLAR 10!!!", value="2023'e hazırız")
-        rte_gif = "https://media.giphy.com/media/ELFInaH0V34jNkBdTb/giphy.gif"
-        em3.set_image(url=rte_gif)
+          prev.pop(0)
+          prev.append(dollar)
+          file1 = open(nameFile, "w")
+          file1.write(str(dollar))
+          file1.close()
+          em3 = discord.Embed(color=red, title="")
+          em3.add_field(name="DOLAR 10!!!", value="2023'e hazırız")
+          rte_gif = "https://media.giphy.com/media/ELFInaH0V34jNkBdTb/giphy.gif"
+          em3.set_image(url=rte_gif)
 
-        # if(dollar >= 10):
-        #  await ch_labne.send(embed=em3)
+          # if(dollar >= 10):
+          #  await ch_labne.send(embed=em3)
 
-        await channel2.send(embed=em2)
-        await channel.send(embed=em)
-        print("Sent!")
+          await channel2.send(embed=em2)
+          await channel.send(embed=em)
+          print("Sent!")
+  except:
+    print("value error")
 
 
 @tasks.loop(minutes=5)
@@ -138,6 +140,19 @@ async def check_if_con():
     #else:
     #    print("no")
 
+@commands.command(name = "süpür")
+async def delete_message(ctx, *args):
+  try:
+    channel = ctx.message.channel
+    await channel.purge(limit=int(args[0])+1, check=None, before=None, after=None, around=None, oldest_first=False, bulk=True)
+  except ValueError:
+    await ctx.send("'!süpür [mesaj sayısı]' şeklinde gir lütfen...")
+  except IndexError:
+    await ctx.send("Kaç mesaj sileyim???")
+
+client.add_command(delete_message)
+  
+
 
 @commands.command()
 async def curr(ctx):
@@ -159,7 +174,9 @@ client.add_command(say)
 
 @commands.command()
 async def join(ctx):
-    channel = ctx.message.author.voice.channel
+    guild = client.get_guild(764085102648098817)
+    channel = guild.get_channel(764085102648098821)
+    #channel = ctx.message.author.voice.channel
     await channel.connect()
 
 client.add_command(join)
@@ -178,6 +195,7 @@ ir_id = 522835029596831774
 guz_id = 522825818225901578
 hra_id = 462700306724290563
 lab_ids = [ir_id, guz_id, hra_id]
+
 @commands.command()
 async def start(ctx):
     lab_file = check_valid(ctx)
