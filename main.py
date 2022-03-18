@@ -7,6 +7,7 @@ from discord import Color
 from datetime import datetime, timedelta
 from check_user import check_valid, check_user
 from timer import pause_reaction, cont_reaction, stop_reaction
+from dizipal import findLink
 
 music = discord.Activity(
     type=discord.ActivityType.listening, name="Her Halini Severim")
@@ -47,7 +48,7 @@ stopEmoji = "<:stop:911666606965391391>"
 stopEmojiID = 911666606965391391
 
 
-@tasks.loop(seconds=20)
+@tasks.loop(seconds=50)
 async def rates():
   try:
       channel = client.get_channel(901924767513329695)
@@ -139,6 +140,16 @@ async def check_if_con():
     #    print("yes")
     #else:
     #    print("no")
+  
+@commands.command(name = "dizipal")
+async def link(ctx):
+  try:
+    await ctx.send(findLink())
+  except:
+    print("Exception...")
+
+    
+client.add_command(link)
 
 @commands.command(name = "süpür")
 async def delete_message(ctx, *args):
