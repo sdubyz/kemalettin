@@ -146,6 +146,7 @@ async def link(ctx):
   try:
     await ctx.send(findLink())
   except:
+    await ctx.send('Linki bulamadım :(\nşuradan bak istersen: https://twitter.com/search?q=%23dizipal')
     print("Exception...")
 
     
