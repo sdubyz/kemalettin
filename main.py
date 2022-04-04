@@ -17,7 +17,9 @@ client = commands.Bot(command_prefix="!",
 
 @client.event
 async def on_ready():
-    print('{0.user} is ready to go!'.format(client))
+  
+  print('{0.user} is ready to go!'.format(client))
+  if not rates.is_running():    
     rates.start()
     #daily_update.start()
     #ch_name.start()
@@ -98,7 +100,7 @@ async def rates():
 
           await channel2.send(embed=em2)
           await channel.send(embed=em)
-          print("Sent!")
+          #print("Sent!")
   except:
     print("value error")
 
@@ -144,11 +146,34 @@ async def check_if_con():
 @commands.command(name = "dizipal")
 async def link(ctx):
   try:
-    await ctx.send(findLink())
-  except:
-    await ctx.send('Linki bulamadım :(\nşuradan bak istersen: https://twitter.com/search?q=%23dizipal')
-    print("Exception...")
+    msg = await ctx.send("Hemmen arıyorum...")
+    nameFile = 'dizipal.txt'
 
+    file1 = open(nameFile, "r")
+    a = int(file1.read()[15:18])
+    file1.close()
+    link = findLink(a, a+1)
+    if findLink(a, a+1) == "0":
+      link=findLink(200,250)
+      print("not found")
+    elif link == "0":
+      link=findLink(100,200)
+      await msg.edit(content='200-250 arasında bulamadım.\nDiğer kombinasyonları deniyorum. Bip bop...')
+    elif link == "0":
+      link=findLink(250,350)
+      await msg.edit(content='100-200 arasında da yok...\nSeni de beklettik ama')
+    elif link == "0":
+      # link=findLink(250,300)
+      await msg.edit(content='Yok bulamadım :/ \nŞuradan bak istersen: https://twitter.com/search?q=%23dizipal&f=live')
+    else:
+      await msg.edit(content='buldum buldum:')
+      await ctx.send(link)
+      file1 = open(nameFile, "w")
+      file1.write(link)
+      file1.close()
+      return
+  except:
+    print("Exception...")
     
 client.add_command(link)
 
@@ -164,7 +189,27 @@ async def delete_message(ctx, *args):
 
 client.add_command(delete_message)
   
+@commands.command(name="saldır")
+async def attack_on_user(ctx, *args):
+  try:
+    ments = ctx.message.mentions
+    url = "https://media.giphy.com/media/9IZKPmNdZ7juU/giphy.gif"
+    url2 = "https://media.giphy.com/media/gfl7CKcgs6exW/giphy.gif"
+    if ments[0] == ctx.message.author:
+      em = discord.Embed(title="Akıl hastanesini arıyorum...")
+      em.set_image(url=url2)
+    elif ments[0].name == 'hra':
+      em = discord.Embed(title="O benim sahibim laan ", description=ctx.message.author.mention)
+      em.set_image(url=url)      
+    else:
+      em = discord.Embed(title="HRRR HAV HAV ", description=ments[0].mention)
+      em.set_image(url=url)
+    await ctx.send(embed=em)
+    #print(ments)
+  except:
+    print("Exception")
 
+client.add_command(attack_on_user)
 
 @commands.command()
 async def curr(ctx):
