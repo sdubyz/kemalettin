@@ -156,13 +156,13 @@ async def link(ctx):
     if findLink(a, a+1) == "0":
       link=findLink(200,250)
       print("not found")
-    elif link == "0":
+    if link == "0":
       link=findLink(100,200)
       await msg.edit(content='200-250 arasında bulamadım.\nDiğer kombinasyonları deniyorum. Bip bop...')
-    elif link == "0":
+    if link == "0":
       link=findLink(250,350)
       await msg.edit(content='100-200 arasında da yok...\nSeni de beklettik ama')
-    elif link == "0":
+    if link == "0":
       # link=findLink(250,300)
       await msg.edit(content='Yok bulamadım :/ \nŞuradan bak istersen: https://twitter.com/search?q=%23dizipal&f=live')
     else:
@@ -171,9 +171,14 @@ async def link(ctx):
       file1 = open(nameFile, "w")
       file1.write(link)
       file1.close()
+      chn1 = client.get_channel(887041498288365568)
+      chn2 = client.get_channel(815199496044019714)
+      await chn1.edit(topic=link)
+      await chn2.edit(topic=link)
+      await ctx.message.channel.edit(topic=link)
       return
-  except:
-    print("Exception...")
+  except Exception as e: print(e)
+    #print("Exception...")
     
 client.add_command(link)
 
