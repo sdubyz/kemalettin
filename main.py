@@ -19,11 +19,12 @@ client = commands.Bot(command_prefix="!",
 async def on_ready():
   
   print('{0.user} is ready to go!'.format(client))
-  if not rates.is_running():    
-    rates.start()
+  #if not rates.is_running():    
+    #rates.start()
     #daily_update.start()
     #ch_name.start()
     #check_if_con.start()
+
 
 nameFile = 'dolar.txt'
 
@@ -50,7 +51,7 @@ stopEmoji = "<:stop:911666606965391391>"
 stopEmojiID = 911666606965391391
 
 
-@tasks.loop(seconds=50)
+@tasks.loop(seconds=5)
 async def rates():
   try:
       channel = client.get_channel(901924767513329695)
@@ -94,12 +95,14 @@ async def rates():
           em3.add_field(name="DOLAR 10!!!", value="2023'e hazırız")
           rte_gif = "https://media.giphy.com/media/ELFInaH0V34jNkBdTb/giphy.gif"
           em3.set_image(url=rte_gif)
-
+          em4 = discord.Embed(title="Dolar yükseldi. (Son mesaj...)")
           # if(dollar >= 10):
           #  await ch_labne.send(embed=em3)
 
-          await channel2.send(embed=em2)
-          await channel.send(embed=em)
+          await channel2.send(embed=em4)
+          await channel.send(embed=em4)
+          channel5 = client.get_channel(887041498288365568)
+          await channel5.send("geldim geldim...")
           #print("Sent!")
   except:
     print("value error")
@@ -155,7 +158,7 @@ async def link(ctx):
     link = findLink(a, a+1)
     if findLink(a, a+1) == "0":
       link=findLink(200,250)
-      print("not found")
+      # print("not found")
     if link == "0":
       link=findLink(100,200)
       await msg.edit(content='200-250 arasında bulamadım.\nDiğer kombinasyonları deniyorum. Bip bop...')
@@ -228,8 +231,7 @@ client.add_command(curr)
 
 @commands.command()
 async def say(ctx, *args):
-    message = await ctx.send(" ".join(args))
-    await message.add_reaction(startEmoji)
+    await ctx.send(" ".join(args))
 
 client.add_command(say)
 
