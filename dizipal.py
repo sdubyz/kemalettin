@@ -5,17 +5,16 @@ def findLink(n,k):
     try:
       r = requests.get("https://dizipal"+str(i)+".com", allow_redirects=False, timeout=4.0)
       x = r.status_code
-#      t = r.text
-      a = r.headers['X-Pingback']
-      if x == 200 and a == 'https://dizipal142.com/xmlrpc.php':
+      t = r.text
+      html = "DiziPAL - dizi, film ve anime izle"
+      # a = r.headers['X-Pingback']
+      # print("Status code: " + str(i) + " - " + str(x) + " - " + a + "\n")
+      # nameFile = 'dizipal.txt'
+      # file1 = open(nameFile, "r")
+      # prev = file1.read() + '/xmlrpc.php'
+      #f ile1.close()
+      if x == 200 and html in t:
         return 'https://dizipal' + str(i) + '.com'
-#    except KeyError:
-#      html = """<!doctype html>
-#<html lang="tr">
-#<head>
-#<script data-ad-client="ca-pub-5140063555116276" async #src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> """
-#      if x == 200 and t.startswith(html):
-#        return 'https://dizipal' + str(i) + '.com'
     except:
       continue
   return "0"

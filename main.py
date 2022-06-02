@@ -156,15 +156,15 @@ async def link(ctx):
     a = int(file1.read()[15:18])
     file1.close()
     link = findLink(a, a+1)
-    if findLink(a, a+1) == "0":
-      link=findLink(200,250)
-      # print("not found")
-    if link == "0":
-      link=findLink(100,200)
-      await msg.edit(content='200-250 arasında bulamadım.\nDiğer kombinasyonları deniyorum. Bip bop...')
     if link == "0":
       link=findLink(250,350)
-      await msg.edit(content='100-200 arasında da yok...\nSeni de beklettik ama')
+      # print("not found")
+    if link == "0":
+      link=findLink(100,250)
+      await msg.edit(content='250-350 arasında bulamadım.\nDiğer kombinasyonları deniyorum. Bip bop...')
+    if link == "0":
+      link=findLink(350,400)
+      await msg.edit(content='100-250 arasında da yok...\nSeni de beklettik ama bir de 350-400 arasına bakayım...')
     if link == "0":
       # link=findLink(250,300)
       await msg.edit(content='Yok bulamadım :/ \nŞuradan bak istersen: https://twitter.com/search?q=%23dizipal&f=live')
