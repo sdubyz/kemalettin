@@ -1,7 +1,6 @@
 # Python
 
-This is the Template Repl for Python.
+Kemalettin is a Discord Bot that does several things.
 
-Python is a dynamic language emphasizing readability.
 
 [Check out the official docs here](https://www.python.org/).

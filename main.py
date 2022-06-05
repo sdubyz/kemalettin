@@ -1,5 +1,6 @@
 import os
 import discord
+import time
 from discord.ext import commands, tasks
 from keep_alive import keep_alive
 from scrap import currency, daily
@@ -150,6 +151,16 @@ async def check_if_con():
 async def link(ctx):
   try:
     msg = await ctx.send("Hemmen arıyorum...")
+    await msg.edit(content="█.......ariyorum..........")
+    time.sleep(0.6)
+    await msg.edit(content="███.ariyorum..........")
+    time.sleep(0.6)
+    await msg.edit(content="████riyorum..........")
+    time.sleep(0.6)
+    await msg.edit(content="██████rum...........")
+    time.sleep(0.6)
+    await msg.edit(content="█████████..........")
+    
     nameFile = 'dizipal.txt'
 
     file1 = open(nameFile, "r")
@@ -161,16 +172,18 @@ async def link(ctx):
       # print("not found")
     if link == "0":
       link=findLink(100,250)
-      await msg.edit(content='250-350 arasında bulamadım.\nDiğer kombinasyonları deniyorum. Bip bop...')
+      await msg.edit(content="███████████...")
     if link == "0":
       link=findLink(350,400)
-      await msg.edit(content='100-250 arasında da yok...\nSeni de beklettik ama bir de 350-400 arasına bakayım...')
+      await msg.edit(content="███████████...")
     if link == "0":
       # link=findLink(250,300)
-      await msg.edit(content='Yok bulamadım :/ \nŞuradan bak istersen: https://twitter.com/search?q=%23dizipal&f=live')
+      await msg.edit(content="████████████")
+      await ctx.send('Yok bulamadım :/ \nŞuradan bak istersen: https://twitter.com/search?q=%23dizipal&f=live')
     else:
-      await msg.edit(content='buldum buldum:')
+      await msg.edit(content="████████████")
       await ctx.send(link)
+      await msg.edit(content=":)")
       file1 = open(nameFile, "w")
       file1.write(link)
       file1.close()
