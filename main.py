@@ -4,6 +4,7 @@ import time
 from discord.ext import commands, tasks
 from keep_alive import keep_alive
 from scrap import currency, daily
+from discord import File
 from discord import Color
 from datetime import datetime, timedelta
 from check_user import check_valid, check_user
@@ -247,6 +248,15 @@ async def say(ctx, *args):
     await ctx.send(" ".join(args))
 
 client.add_command(say)
+
+
+@commands.command()
+async def bombarda(ctx, *args):
+    f = discord.File("wenamechainsama.mp4")
+    await ctx.send(file = f)
+
+client.add_command(bombarda)
+
 
 
 @commands.command()
