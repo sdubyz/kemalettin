@@ -1,6 +1,7 @@
 import os
 import discord
 import time
+#import pynacl
 from discord.ext import commands, tasks
 from keep_alive import keep_alive
 from scrap import currency, daily
@@ -259,11 +260,11 @@ client.add_command(bombarda)
 
 
 
-@commands.command()
+@commands.command(name="katil")
 async def join(ctx):
-    guild = client.get_guild(764085102648098817)
-    channel = guild.get_channel(764085102648098821)
-    #channel = ctx.message.author.voice.channel
+    channel = ctx.author.voice.channel
+    #guild = client.get_guild(764085102648098817)
+    #channel = guild.get_channel(764085102648098821)
     await channel.connect()
 
 client.add_command(join)
