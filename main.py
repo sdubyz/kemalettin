@@ -208,6 +208,9 @@ async def delete_message(ctx, *args):
   except IndexError:
     await ctx.send("Kaç mesaj sileyim???")
     return
+  except Exception as e:
+    print(e)
+    return
 
   if deleted_messages:
     with open("data/deleted_messages.txt", "a") as deleted_msg:
