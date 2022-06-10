@@ -1,11 +1,9 @@
 import os
 import discord
 import time
-#import pynacl
 from discord.ext import commands, tasks
 from keep_alive import keep_alive
 from scrap import currency, daily
-from discord import File
 from discord import Color
 from datetime import datetime, timedelta
 from check_user import check_valid, check_user
@@ -53,8 +51,12 @@ pauseEmojiID = 911666600342589451
 stopEmoji = "<:stop:911666606965391391>"
 stopEmojiID = 911666606965391391
 
+lab_lib_ch = [909170792347107358, 901055167825346600, 845613490000494602,
+              845613443851485184, 845613337236602942, 525024033381810179]
+guz_id = 522825818225901578
 hra_id = 462700306724290563
 ir_id = 522835029596831774
+lab_ids = [ir_id, guz_id, hra_id]
 
 @tasks.loop(seconds=5)
 async def rates():
@@ -210,12 +212,10 @@ async def send_deleted_msg(ctx):
   if ctx.message.author.id != hra_id and ctx.message.author.id != ir_id:
     await ctx.send("Admin izni gerekiyor! ( hra :) )")
     return
-    
   if deleted_messages:
     try:
       for msg in reversed(deleted_messages):
         msg_content = "**"+msg.author.name+"**" +" at " + "__*"+msg.created_at.strftime("%m/%d/%Y %H:%M:%S")+"*__" + " : " + "*"+msg.content+"*" + "\n"
-        # print(msg_content)
         await ctx.send(msg_content)
     except Exception as e:
       print(e)
@@ -303,8 +303,6 @@ client.add_command(bombarda)
 @commands.command(name="katil")
 async def join(ctx):
     channel = ctx.author.voice.channel
-    #guild = client.get_guild(764085102648098817)
-    #channel = guild.get_channel(764085102648098821)
     await channel.connect()
 
 client.add_command(join)
@@ -317,12 +315,7 @@ async def leave(ctx):
 client.add_command(leave)
 
 
-lab_lib_ch = [909170792347107358, 901055167825346600, 845613490000494602,
-              845613443851485184, 845613337236602942, 525024033381810179]
 
-guz_id = 522825818225901578
-
-lab_ids = [ir_id, guz_id, hra_id]
 
 @commands.command()
 async def start(ctx):
@@ -507,13 +500,6 @@ async def on_raw_reaction_add(payload):
 
 #labne_lib = 525024033381810176
 
-@commands.command(name="emoji")
-async def get_emojis(ctx):
-  #guild = client.get_guild(labne_lib)
-  await ctx.send(startEmoji_t)
 
-client.add_command(get_emojis)
-
-#my_secret = os.environ['TOKEN']
 keep_alive()
 client.run(os.getenv('TOKEN'))
