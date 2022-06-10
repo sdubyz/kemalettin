@@ -189,7 +189,7 @@ async def link(ctx):
     else:
       await msg.edit(content="████████████")
       await ctx.send(link)
-      await msg.edit(content=":)")
+      await msg.delete()
       file1 = open(nameFile, "w")
       file1.write(link)
       file1.close()

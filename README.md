@@ -1,3 +1,3 @@
 # Kemalettin The Discord Bot
 
-Kemalettin is a Discord Bot that does several things.
+Kemalettin is a Discord Bot that does a couple of things.
