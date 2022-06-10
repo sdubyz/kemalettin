@@ -207,6 +207,13 @@ client.add_command(link)
 
 deleted_messages = []
 
+
+@commands.command(name="yardim")
+async def guideline(ctx):
+  help_message = "Komutlar:\n!help !süpür !dizipal !bombarda !oops !curr !katil !ayril"
+  await ctx.send(help_message)
+client.add_command(guideline)
+
 @commands.command(name = "oops")
 async def send_deleted_msg(ctx):
   if ctx.message.author.id != hra_id and ctx.message.author.id != ir_id:
@@ -308,7 +315,7 @@ async def join(ctx):
 client.add_command(join)
 
 
-@commands.command(pass_context=True)
+@commands.command(pass_context=True, name="ayril")
 async def leave(ctx):
     await ctx.voice_client.disconnect()
 
