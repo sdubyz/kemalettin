@@ -53,6 +53,8 @@ pauseEmojiID = 911666600342589451
 stopEmoji = "<:stop:911666606965391391>"
 stopEmojiID = 911666606965391391
 
+hra_id = 462700306724290563
+ir_id = 522835029596831774
 
 @tasks.loop(seconds=5)
 async def rates():
@@ -200,16 +202,50 @@ async def link(ctx):
     
 client.add_command(link)
 
+
+deleted_messages = []
+
+@commands.command(name = "oops")
+async def send_deleted_msg(ctx):
+  if ctx.message.author.id != hra_id and ctx.message.author.id != ir_id:
+    await ctx.send("Admin izni gerekiyor! ( hra :) )")
+    return
+    
+  if deleted_messages:
+    try:
+      for msg in reversed(deleted_messages):
+        msg_content = "**"+msg.author.name+"**" +" at " + "__*"+msg.created_at.strftime("%m/%d/%Y %H:%M:%S")+"*__" + " : " + "*"+msg.content+"*" + "\n"
+        # print(msg_content)
+        await ctx.send(msg_content)
+    except Exception as e:
+      print(e)
+  else:
+    print("no deleted messages")
+      
+client.add_command(send_deleted_msg)
+
+
 @commands.command(name = "süpür")
 async def delete_message(ctx, *args):
   try:
     channel = ctx.message.channel
-    await channel.purge(limit=int(args[0])+1, check=None, before=None, after=None, around=None, oldest_first=False, bulk=True)
+    global deleted_messages
+    deleted_messages = await channel.purge(limit=int(args[0])+1, check=None, before=None, after=None, around=None, oldest_first=False, bulk=True)
   except ValueError:
     await ctx.send("'!süpür [mesaj sayısı]' şeklinde gir lütfen...")
+    return
   except IndexError:
     await ctx.send("Kaç mesaj sileyim???")
+    return
 
+  if deleted_messages:
+    with open("deleted_messages", "a") as deleted_msg:
+      for msg in deleted_messages:
+        deleted_msg.write(msg.author.name +" - " + 
+                         " at " + str(msg.created_at) + ": ")
+        deleted_msg.write(msg.content+"\n")
+
+      
 client.add_command(delete_message)
   
 @commands.command(name="saldır")
@@ -279,9 +315,9 @@ client.add_command(leave)
 
 lab_lib_ch = [909170792347107358, 901055167825346600, 845613490000494602,
               845613443851485184, 845613337236602942, 525024033381810179]
-ir_id = 522835029596831774
+
 guz_id = 522825818225901578
-hra_id = 462700306724290563
+
 lab_ids = [ir_id, guz_id, hra_id]
 
 @commands.command()
