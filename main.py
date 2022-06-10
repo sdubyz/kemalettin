@@ -27,7 +27,7 @@ async def on_ready():
     #check_if_con.start()
 
 
-nameFile = 'dolar.txt'
+nameFile = 'data/dolar.txt'
 
 file1 = open(nameFile, "r")
 n = float(file1.read())
@@ -167,7 +167,7 @@ async def link(ctx):
     time.sleep(0.6)
     await msg.edit(content="█████████..........")
     
-    nameFile = 'dizipal.txt'
+    nameFile = 'data/dizipal.txt'
 
     file1 = open(nameFile, "r")
     a = int(file1.read()[15:18])
@@ -250,7 +250,7 @@ async def delete_message(ctx, *args):
     return
 
   if deleted_messages:
-    with open("deleted_messages", "a") as deleted_msg:
+    with open("data/deleted_messages.txt", "a") as deleted_msg:
       for msg in deleted_messages:
         deleted_msg.write(msg.author.name +" - " + 
                          " at " + str(msg.created_at) + ": ")
@@ -300,7 +300,7 @@ client.add_command(say)
 
 @commands.command()
 async def bombarda(ctx, *args):
-    f = discord.File("wenamechainsama.mp4")
+    f = discord.File("data/wenamechainsama.mp4")
     await ctx.send(file = f)
 
 client.add_command(bombarda)
