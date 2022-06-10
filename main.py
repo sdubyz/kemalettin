@@ -35,9 +35,6 @@ emoji_ids = [911666593623334962, 911666600342589451, 911666606965391391]
 
 lab_lib_ch = [909170792347107358, 901055167825346600, 845613490000494602,
               845613443851485184, 845613337236602942, 525024033381810179]
-guz_id = 522825818225901578
-hra_id = 462700306724290563
-ir_id = 522835029596831774
 # irem_id, guzi_id, hra_id
 lab_ids = [522835029596831774, 522825818225901578, 462700306724290563]
 
@@ -45,11 +42,9 @@ lab_ids = [522835029596831774, 522825818225901578, 462700306724290563]
 async def rates():
   try:
       nameFile = 'data/dolar.txt'
-
-      file1 = open(nameFile, "r")
-      n = float(file1.read())
-      prev = n
-      file1.close()
+      with open(nameFile, "r") as file1:
+        n = float(file1.read())
+        prev = n
 
       channel = client.get_channel(901924767513329695)
       channel2 = client.get_channel(902109009329389598)
@@ -174,6 +169,7 @@ async def guideline(ctx):
   help_message = "Komutlar:\n!help !süpür !dizipal !bombarda !oops !curr !katil !ayril"
   await ctx.send(help_message)
 client.add_command(guideline)
+
 
 @commands.command(name = "oops")
 async def send_deleted_msg(ctx):
