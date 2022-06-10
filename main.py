@@ -26,44 +26,33 @@ async def on_ready():
     #ch_name.start()
     #check_if_con.start()
 
-
-nameFile = 'data/dolar.txt'
-
-file1 = open(nameFile, "r")
-n = float(file1.read())
-
 green = Color.dark_green()
 red = Color.red()
-prev = [n]
-file1.close()
 
-startEmoji_t = "<:start:911666089115660338>"
-startEmojiID_t = 911666089115660338
-pauseEmoji_t = "<:pause:911666263988785203>"
-pauseEmojiID_t = 911666263988785203
-stopEmoji_t = "<:stop:911666095822352474>"
-stopEmojiID_t = 911666095822352474
 
-startEmoji = "<:start:911666593623334962>"
-startEmojiID = 911666593623334962
-pauseEmoji = "<:pause:911666600342589451>"
-pauseEmojiID = 911666600342589451
-stopEmoji = "<:stop:911666606965391391>"
-stopEmojiID = 911666606965391391
+emojis = ["<:start:911666593623334962>", "<:pause:911666600342589451>", "<:stop:911666606965391391>"]
+emoji_ids = [911666593623334962, 911666600342589451, 911666606965391391]
 
 lab_lib_ch = [909170792347107358, 901055167825346600, 845613490000494602,
               845613443851485184, 845613337236602942, 525024033381810179]
 guz_id = 522825818225901578
 hra_id = 462700306724290563
 ir_id = 522835029596831774
-lab_ids = [ir_id, guz_id, hra_id]
+# irem_id, guzi_id, hra_id
+lab_ids = [522835029596831774, 522825818225901578, 462700306724290563]
 
 @tasks.loop(seconds=5)
 async def rates():
   try:
+      nameFile = 'data/dolar.txt'
+
+      file1 = open(nameFile, "r")
+      n = float(file1.read())
+      prev = n
+      file1.close()
+
       channel = client.get_channel(901924767513329695)
       channel2 = client.get_channel(902109009329389598)
-      #ch_labne = client.get_channel(838136630425944066)
 
       dollar = float(str(currency()).replace(",", "."))
       up = '<:greenUp:902101687043514378> '
@@ -72,11 +61,11 @@ async def rates():
       up2 = '<:greenUp:902110266278424606> '
       down2 = '<:redDown:902110295986679860> '
 
-      diff = abs(((dollar - prev[0]) / prev[0])*100)
+      diff = abs(((dollar - prev) / prev)*100)
       if(diff <= 0.025):
           pass
       else:
-          if (prev[0] <= dollar):
+          if (prev <= dollar):
               pos_ratio = '```diff\nDolar: {} ₺\n+ %{}\n```'.format(
                   dollar, round(diff, 4))
               em = discord.Embed(color=green, title="")
@@ -93,8 +82,7 @@ async def rates():
               em2 = discord.Embed(color=red, title="")
               em2.add_field(name=down2*6, value=neg_ratio)
 
-          prev.pop(0)
-          prev.append(dollar)
+          prev = dollar
           file1 = open(nameFile, "w")
           file1.write(str(dollar))
           file1.close()
@@ -109,8 +97,6 @@ async def rates():
           await channel2.send(embed=em4)
           await channel.send(embed=em4)
           channel5 = client.get_channel(887041498288365568)
-          await channel5.send("geldim geldim...")
-          #print("Sent!")
   except:
     print("value error")
 
@@ -129,29 +115,6 @@ async def ch_name():
     dollar = str(dollar_num).replace('.', '-')
     await channel.edit(name="dolar-{}".format(dollar))
 
-
-@tasks.loop(seconds=2)
-async def check_if_con():
-    channel1 = client.get_channel(764085102648098821)
-    labne = client.get_guild(764085102648098817)
-    text_ch = client.get_channel(909170792347107358)
-    hra = await labne.fetch_member(462700306724290563)
-
-    #irm = labne.get_member(522835029596831774)
-    #guz = labne.get_member(522825818225901578)
-    #members = [hra, irm, guz]
-    #print(hra.name)
-    #if hra.voice is None:
-      #await text_ch.send("no")
-    #else:
-      #if hra.voice.channel == channel1:
-        #await text_ch.send("yea")
-        #check_if_con.stop()
-    #print(labne.name)
-    #if hra in channel.members:
-    #    print("yes")
-    #else:
-    #    print("no")
   
 @commands.command(name = "dizipal")
 async def link(ctx):
@@ -175,7 +138,6 @@ async def link(ctx):
     link = findLink(a, a+1)
     if link == "0":
       link=findLink(250,350)
-      # print("not found")
     if link == "0":
       link=findLink(100,250)
       await msg.edit(content="███████████...")
@@ -184,7 +146,7 @@ async def link(ctx):
       await msg.edit(content="███████████...")
     if link == "0":
       # link=findLink(250,300)
-      await msg.edit(content="████████████")
+      await msg.delete()
       await ctx.send('Yok bulamadım :/ \nŞuradan bak istersen: https://twitter.com/search?q=%23dizipal&f=live')
     else:
       await msg.edit(content="████████████")
@@ -200,7 +162,6 @@ async def link(ctx):
       await ctx.message.channel.edit(topic=link)
       return
   except Exception as e: print(e)
-    #print("Exception...")
     
 client.add_command(link)
 
@@ -216,7 +177,7 @@ client.add_command(guideline)
 
 @commands.command(name = "oops")
 async def send_deleted_msg(ctx):
-  if ctx.message.author.id != hra_id and ctx.message.author.id != ir_id:
+  if ctx.message.author.id != lab_ids[2] and ctx.message.author.id != lab_ids[0]:
     await ctx.send("Admin izni gerekiyor! ( hra :) )")
     return
   if deleted_messages:
@@ -224,10 +185,9 @@ async def send_deleted_msg(ctx):
       for msg in reversed(deleted_messages):
         msg_content = "**"+msg.author.name+"**" +" at " + "__*"+msg.created_at.strftime("%m/%d/%Y %H:%M:%S")+"*__" + " : " + "*"+msg.content+"*" + "\n"
         await ctx.send(msg_content)
-    except Exception as e:
-      print(e)
+    except Exception as e: print(e)
   else:
-    print("no deleted messages")
+    await ctx.send("Henüz süpür komutuyla mesaj silmedin.")
       
 client.add_command(send_deleted_msg)
 
@@ -275,11 +235,10 @@ async def attack_on_user(ctx, *args):
       em = discord.Embed(title="HRRR HAV HAV ", description=ments[0].mention)
       em.set_image(url=url)
     await ctx.send(embed=em)
-    #print(ments)
-  except:
-    print("Exception")
+  except Exception as e: print(e)
 
 client.add_command(attack_on_user)
+
 
 @commands.command()
 async def curr(ctx):
@@ -337,8 +296,8 @@ async def start(ctx):
         tot_file = check_user(lab_file)
         open(tot_file, 'w').close()
         theMessage = await ctx.send("İyi çalışmalar!")
-        await theMessage.add_reaction(pauseEmoji)
-        await theMessage.add_reaction(stopEmoji)
+        await theMessage.add_reaction(emojis[1])
+        await theMessage.add_reaction(emojis[2])
         await ctx.message.delete()
 
 
@@ -372,8 +331,8 @@ async def pause(ctx):
             tot_file.close()
             await ctx.send("Süre duraklatıldı!", delete_after=3.0)
             msg = await ctx.send("Çalıştığınız Süre: " + tot_time)
-            await msg.add_reaction(startEmoji)
-            await msg.add_reaction(stopEmoji)
+            await msg.add_reaction(emojis[0])
+            await msg.add_reaction(emojis[2])
             await ctx.message.delete()            
 
 client.add_command(pause)
@@ -392,7 +351,6 @@ async def cont(ctx):
             await ctx.send("Zaten süre devam etmekte!")
             return
         else:
-
             last_line = line
             FMT = '%H:%M:%S'
             now = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
@@ -403,8 +361,8 @@ async def cont(ctx):
             diff = str(datetime.strptime(
                 now[-8:], FMT) - datetime.strptime(last_line[-9:-1], FMT))
             msg = await ctx.send("Mola Süresi: " + diff)
-            await msg.add_reaction(pauseEmoji)
-            await msg.add_reaction(stopEmoji)
+            await msg.add_reaction(emojis[1])
+            await msg.add_reaction(emojis[2])
             await ctx.message.delete()
 
 client.add_command(cont)
@@ -442,9 +400,6 @@ async def stop(ctx):
             for line in f:
                 t2 = datetime.strptime(line[:-1], FMT)
                 tot_time = (tot_time - time_zero + t2)
-
-        #diff = str(datetime.strptime(
-            #now[-8:], FMT) - datetime.strptime(start[-9:-1], FMT))
         str_time = datetime.strptime(
             start[-9:-1], FMT) + timedelta(hours=3)
         now_t = datetime.strptime(
@@ -492,21 +447,15 @@ async def on_raw_reaction_add(payload):
     ch_id = payload.channel_id
     channel = guild.get_channel(ch_id)
     msg = await channel.fetch_message(payload.message_id)
-    if reaction.id == pauseEmojiID:
+    if reaction.id == emoji_ids[1]:
       if await pause_reaction(channel, membr):      
         await msg.clear_reactions()
-      #await channel.send("reaction added")
-    elif reaction.id == stopEmojiID:
-      #await channel.send("reaction added")
+    elif reaction.id == emoji_ids[2]:
       if await stop_reaction(channel, membr):
         await msg.clear_reactions()
-    elif reaction.id == startEmojiID:
+    elif reaction.id == emoji_ids[0]:
       if await cont_reaction(channel, membr):
-        await msg.clear_reactions()
-      #await channel.send("reaction added")      
-
-#labne_lib = 525024033381810176
-
+        await msg.clear_reactions()      
 
 keep_alive()
 client.run(os.getenv('TOKEN'))
