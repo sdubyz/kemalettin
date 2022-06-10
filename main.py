@@ -230,9 +230,13 @@ async def delete_message(ctx, *args):
   try:
     channel = ctx.message.channel
     global deleted_messages
-    deleted_messages = await channel.purge(limit=int(args[0])+1, check=None, before=None, after=None, around=None, oldest_first=False, bulk=True)
+    if len(args) == 2:
+      if args[1] == "dk":
+        deleted_messages = await channel.purge(limit=200, check=None, before=None, after=datetime.now()-timedelta(minutes=int(args[0])), around=None, oldest_first=False, bulk=True)
+    elif len(args) == 1:    
+      deleted_messages = await channel.purge(limit=int(args[0])+1, check=None, before=None, after=None, around=None, oldest_first=False, bulk=True)
   except ValueError:
-    await ctx.send("'!süpür [mesaj sayısı]' şeklinde gir lütfen...")
+    await ctx.send("'!süpür [mesaj sayısı]' veya '!süpür [dakika] dk' şeklinde gir lütfen...")
     return
   except IndexError:
     await ctx.send("Kaç mesaj sileyim???")
