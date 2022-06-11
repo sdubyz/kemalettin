@@ -140,7 +140,6 @@ async def link(ctx):
       link=findLink(350,400)
       await msg.edit(content="███████████...")
     if link == "0":
-      # link=findLink(250,300)
       await msg.delete()
       await ctx.send('Yok bulamadım :/ \nŞuradan bak istersen: https://twitter.com/search?q=%23dizipal&f=live')
     else:
