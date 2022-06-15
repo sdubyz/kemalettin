@@ -469,6 +469,18 @@ async def on_message(payload):
     await msg.reply(file=ff, delete_after=3.0)
     await msg.delete()
 
+voice = None
+@client.event
+async def on_voice_state_update(member, before, after):
+  chn = after.channel
+  global voice
+  try:
+    if chn is not None:
+      voice = await chn.connect()
+    else:
+      await voice.disconnect()
+  except discord.ClientException as e:
+    print(e)
 #@client.event
 #async def on_member_update(before,after):
   # hra = await client.fetch_user(462700306724290563)
