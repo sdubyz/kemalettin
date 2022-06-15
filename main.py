@@ -455,5 +455,14 @@ async def on_raw_reaction_add(payload):
       if await cont_reaction(channel, membr):
         await msg.clear_reactions()      
 
+@client.event
+async def on_message(payload):
+  membr = payload.member
+  mee6 = 159985870458322944
+  if membr.id == mee6:
+    channel = guild.get_channel(ch_id)
+    msg = await channel.fetch_message(payload.message_id)
+    await msg.send(file="pepe.jpg", delete_after=3.0)
+    msg.delete()
 keep_alive()
 client.run(os.getenv('TOKEN'))
