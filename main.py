@@ -457,12 +457,17 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_message(payload):
-  membr = payload.member
+  await client.process_commands(payload)
+  membr = payload.author
   mee6 = 159985870458322944
   if membr.id == mee6:
-    channel = guild.get_channel(ch_id)
-    msg = await channel.fetch_message(payload.message_id)
-    await msg.send(file="pepe.jpg", delete_after=3.0)
-    msg.delete()
+    channel = payload.channel
+    msg = await channel.fetch_message(payload.id)
+    ff = discord.File("pepe.jpg")
+    await msg.reply(file=ff, delete_after=3.0)
+    await msg.delete()
+
+
+
 keep_alive()
 client.run(os.getenv('TOKEN'))

@@ -2,7 +2,7 @@
 name = "repl_python3_kemalettin"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Harun Gumus"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
