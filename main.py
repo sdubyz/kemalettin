@@ -10,10 +10,12 @@ from check_user import check_valid, check_user
 from timer import pause_reaction, cont_reaction, stop_reaction
 from dizipal import findLink
 
+
+intents = discord.Intents().all()
 music = discord.Activity(
     type=discord.ActivityType.listening, name="Her Halini Severim")
 client = commands.Bot(command_prefix="!",
-                      status=discord.Status.online, activity=music )
+                      status=discord.Status.online, activity=music, intents=intents )
 
 
 @client.event
@@ -467,6 +469,10 @@ async def on_message(payload):
     await msg.reply(file=ff, delete_after=3.0)
     await msg.delete()
 
+#@client.event
+#async def on_member_update(before,after):
+  # hra = await client.fetch_user(462700306724290563)
+  #print(f'Status of {after.name} changed from {before.status} to {after.status}')
 
 
 keep_alive()
